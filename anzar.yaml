@@ -1,0 +1,27 @@
+apps:
+  ff-js-server:
+    ci:
+      jobs:
+        - name: prepare-code
+          runtime: ff-latest
+          tshirt: standard
+          commands:
+            # Move the JS code from the Git workspace to the persistent app drive
+            - cp server.js /app/server.js
+
+    cd:
+      runtime: ff-latest
+      tshirt: standard
+      type: serverless
+      start_commands: 
+         # 💥 1. Tune the Linux TCP stack dynamically
+        - sysctl -w net.ipv4.ip_local_port_range="1024 65535"
+        - sysctl -w net.ipv4.tcp_tw_reuse=1
+        - sysctl -w net.core.somaxconn=65535
+        - sysctl -w net.ipv4.tcp_max_syn_backlog=65535
+
+         
+         # 💥 2. Chain ulimit and node in the same shell session
+        - sh -c 'ulimit -n 65535 && exec ff ./server.js'
+      port: 3000
+      connection_limit: 500

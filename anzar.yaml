@@ -24,4 +24,4 @@ apps:
          # 💥 2. Chain ulimit and node in the same shell session
         - sh -c 'ulimit -n 65535 && exec ff ./server.js'
       port: 3000
-      connection_limit: 500
+      #connection_limit: 500

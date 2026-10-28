@@ -12,7 +12,7 @@ apps:
     cd:
       runtime: ff-latest
       tshirt: standard
-      type: serverless
+      type: warm
       start_commands: 
          # 💥 1. Tune the Linux TCP stack dynamically
         - sysctl -w net.ipv4.ip_local_port_range="1024 65535"

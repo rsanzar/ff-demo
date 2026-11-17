@@ -4,15 +4,15 @@ apps:
       jobs:
         - name: prepare-code
           runtime: ff-latest
-          tshirt: nano
+          tshirt: micro
           commands:
             # Move the JS code from the Git workspace to the persistent app drive
             - cp server.js /app/server.js
 
     cd:
       runtime: ff-latest
-      tshirt: nano
-      type: snapstart
+      tshirt: micro
+      type: warm
       start_commands: 
          # 💥 1. Tune the Linux TCP stack dynamically
         - sysctl -w net.ipv4.ip_local_port_range="1024 65535"

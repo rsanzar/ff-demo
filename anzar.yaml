@@ -21,6 +21,6 @@ apps:
         - sysctl -w net.ipv4.tcp_max_syn_backlog=65535
 
         # 2. Catch stdout/stderr, dump context, and flush before exiting
-        - sh -c '{ echo "=== PWD & FILES ==="; pwd; ls -la /app; which ff; echo "=== RUNNING FF ==="; ulimit -n 65535 && ff ./server.js --allow-all; } 2>&1 | tee /app/ff.log /dev/console; status=$?; sleep 2; exit $status'
+        - ff /app/server.js
       port: 3000
       connection_limit: 500

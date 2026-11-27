@@ -1,17 +1,18 @@
     apps:
       ff-demo:
-  	ci:
+        ci:
           jobs:
             - name: prepare-code
               runtime: ff-latest
               tshirt: standard
               commands:
-    		- sysctl -w vm.overcommit_memory=1
-                - echo "CI check -> CI_SECRET=${CI_SECRET} | CD_SECRET=${CD_SECRET}"
-                - echo "{\"ci_secret\":\"${CI_SECRET}\",\"cd_secret\":\"${CD_SECRET}\"}" > /app/ci_check.json
+                - sysctl -w vm.overcommit_memory=1
+                - 'echo "CI check -> CI_SECRET=${CI_SECRET} | CD_SECRET=${CD_SECRET}"'
+                - 'printf "{\"ci_secret\":\"%s\",\"cd_secret\":\"%s\"}\n" "$CI_SECRET"
+                "$CD_SECRET" > /app/ci_check.json'
                 - cp server.js /app/server.js
 
-  	cd:
+        cd:
           runtime: ff-latest
           tshirt: standard
           type: warm

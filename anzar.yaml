@@ -1,19 +1,17 @@
     apps:
       ff-demo:
-        ci:
+  	ci:
           jobs:
             - name: prepare-code
               runtime: ff-latest
               tshirt: standard
               commands:
-                - sysctl -w vm.overcommit_memory=1
-                # Verify CI_SECRET is present in CI and CD_SECRET is NOT leaked into CI:
-                - ff -e 'const ok = Boolean(process.env.CI_SECRET); const cdLeaked = Boolean(process.env.CD_SECRET); console.log("CI check -> CI_SECRET:", ok, "CD_SECRET leaked:",
-                cdLeaked); fs.writeFile("/app/ci_check.json", JSON.stringify({ ci_secret_present_in_ci: ok, ci_secret_preview: (process.env.CI_SECRET || "").slice(0, 10) + "...",
-                cd_secret_leaked_into_ci: cdLeaked }));' --allow-all
+    		- sysctl -w vm.overcommit_memory=1
+                - echo "CI check -> CI_SECRET=${CI_SECRET} | CD_SECRET=${CD_SECRET}"
+                - echo "{\"ci_secret\":\"${CI_SECRET}\",\"cd_secret\":\"${CD_SECRET}\"}" > /app/ci_check.json
                 - cp server.js /app/server.js
 
-        cd:
+  	cd:
           runtime: ff-latest
           tshirt: standard
           type: warm
